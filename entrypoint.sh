@@ -37,6 +37,7 @@ fi
 HOST_ONLY="${HOST%%:*}"
 
 sudo nmap -sS -A -Pn -sV -oN /tmp/nmap.txt "$HOST_ONLY"
+# make this conditional as well
 #sudo nmap -p- -oN /tmp/nmap_allports.txt "$HOST_ONLY"
 
 if [[ "$SSL" == "yes" ]]; then
@@ -45,9 +46,9 @@ else
   URL="http://$HOST"
 fi
 
-gobuster dir -u "$URL" -w /usr/share/wordlists/raft-large-directories.txt -o /tmp/gobuster_dirs.txt -t 30
-gobuster dir -u "$URL" -w /usr/share/wordlists/raft-large-files.txt -o /tmp/gobuster_files.txt -t 30
-gobuster vhost -u "$URL" -t 50 -w /usr/share/wordlists/subdomains-top1million-5000.txt -o /tmp/gobuster_vhosts.txt
+# gobuster dir -u "$URL" -w /usr/share/wordlists/raft-large-directories.txt -o /tmp/gobuster_dirs.txt -b 404 -t 30
+# gobuster dir -u "$URL" -w /usr/share/wordlists/raft-large-files.txt -o /tmp/gobuster_files.txt -b 404 -t 30
+# gobuster vhost -u "$URL" -t 50 -w /usr/share/wordlists/subdomains-top1million-5000.txt -o /tmp/gobuster_vhosts.txt
 
 if [[ "$DNS_SCAN" == "yes" ]]; then
   gobuster dns -d "$HOST" -w /usr/share/wordlists/subdomains-top1million-5000.txt -t 30 -o /tmp/gobuster_dns.txt

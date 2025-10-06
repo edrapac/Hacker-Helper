@@ -1,11 +1,37 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import requests
+import subprocess
+import os
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+@app.route('/health', methods=['GET'])
 def hello_geek():
     return '<h1>Hello from Flask & Docker</h1>'
+
+@app.route('/scans', methods=['GET']) 
+def scans():
+    output_dir = '/tmp'
+    scan_files = []
+    tool_map = {
+        'nmap': 'Nmap',
+        'gobuster_dirs': 'Gobuster (Directories)',
+        'gobuster_files': 'Gobuster (Files)',
+        'gobuster_vhosts': 'Gobuster (VHosts)',
+        'gobuster_dns': 'Gobuster (DNS)',
+    }
+    for fname in os.listdir(output_dir):
+        fpath = os.path.join(output_dir, fname)
+        if os.path.isfile(fpath):
+            with open(fpath, 'r') as f:
+                content = f.read()
+            # Determine tool name from filename
+            tool = next((tool_map[key] for key in tool_map if key in fname), fname)
+            scan_files.append({'tool': tool, 'filename': fname, 'content': content})
+    return render_template('scans.html', scan_files=scan_files)
 
 @app.route('/scan', methods=['POST'])
 def scan():
@@ -17,16 +43,22 @@ def scan():
     if not host:
         return jsonify({'error': 'host is required'}), 400
 
-    # Call the hacker-helper API
+    cmd = ["./entrypoint.sh"]
+    if ssl:
+        cmd.append("--ssl")
+    if dns:
+        cmd.append("--dns")
+    cmd.append(host)
+
     try:
-        resp = requests.post(
-            'http://hacker-helper:8081/scan',
-            json={'host': host, 'ssl': ssl, 'dns': dns},
-            timeout=900
-        )
-        return jsonify(resp.json()), resp.status_code
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        return jsonify({
+            'stdout': result.stdout,
+            'stderr': result.stderr,
+            'returncode': result.returncode
+        })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=5002)

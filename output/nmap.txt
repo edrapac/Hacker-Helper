@@ -1,35 +1,31 @@
-# Nmap 7.93 scan initiated Mon Oct  6 18:19:18 2025 as: nmap -sS -A -Pn -sV -oN /tmp/nmap.txt example.com
-Nmap scan report for example.com (23.220.75.232)
-Host is up (0.070s latency).
-Other addresses for example.com (not scanned): 23.215.0.136 23.220.75.245 23.215.0.138 23.192.228.84 23.192.228.80 2600:1408:ec00:36::1736:7f31 2600:1406:5e00:6::17ce:bc12 2600:1406:bc00:53::b81e:94c8 2600:1406:5e00:6::17ce:bc1b 2600:1408:ec00:36::1736:7f24 2600:1406:bc00:53::b81e:94ce
-rDNS record for 23.220.75.232: a23-220-75-232.deploy.static.akamaitechnologies.com
-Not shown: 998 filtered tcp ports (no-response)
-PORT    STATE SERVICE  VERSION
-80/tcp  open  http     AkamaiGHost (Akamai's HTTP Acceleration/Mirror service)
-|_http-title: Example Domain
-443/tcp open  ssl/http AkamaiGHost (Akamai's HTTP Acceleration/Mirror service)
-| tls-alpn: 
-|   http/1.1
-|_  http/1.0
-|_http-title: Example Domain
-|_ssl-date: TLS randomness does not represent time
-| tls-nextprotoneg: 
-|   http/1.1
-|_  http/1.0
-| ssl-cert: Subject: commonName=*.example.com/organizationName=Internet Corporation for Assigned Names and Numbers/stateOrProvinceName=California/countryName=US
-| Subject Alternative Name: DNS:*.example.com, DNS:example.com
-| Not valid before: 2025-01-15T00:00:00
-|_Not valid after:  2026-01-15T23:59:59
-Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
-OS fingerprint not ideal because: Missing a closed TCP port so results incomplete
+# Nmap 7.93 scan initiated Mon Oct  6 21:35:28 2025 as: nmap -sS -A -Pn -sV -oN /tmp/nmap.txt scanme.nmap.org
+Nmap scan report for scanme.nmap.org (45.33.32.156)
+Host is up (0.087s latency).
+Other addresses for scanme.nmap.org (not scanned): 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 995 closed tcp ports (reset)
+PORT      STATE    SERVICE    VERSION
+22/tcp    open     ssh        OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 ac00a01a82ffcc5599dc672b34976b75 (DSA)
+|   2048 203d2d44622ab05a9db5b30514c2a6b2 (RSA)
+|   256 9602bb5e57541c4e452f564c4a24b257 (ECDSA)
+|_  256 33fa910fe0e17b1f6d05a2b0f1544156 (ED25519)
+25/tcp    filtered smtp
+80/tcp    open     http       Apache httpd 2.4.7 ((Ubuntu))
+|_http-title: Go ahead and ScanMe!
+|_http-favicon: Nmap Project
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+9929/tcp  open     nping-echo Nping echo
+31337/tcp open     tcpwrapped
+OS fingerprint not ideal because: Host distance (15 network hops) is greater than five
 No OS matches for host
 Network Distance: 2 hops
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
-TRACEROUTE (using port 80/tcp)
+TRACEROUTE (using port 110/tcp)
 HOP RTT      ADDRESS
-1   0.05 ms  172.19.0.1
-2   77.00 ms a23-220-75-232.deploy.static.akamaitechnologies.com (23.220.75.232)
+1   0.07 ms  172.19.0.1
+2   49.04 ms scanme.nmap.org (45.33.32.156)
 
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-# Nmap done at Mon Oct  6 18:19:53 2025 -- 1 IP address (1 host up) scanned in 35.36 seconds
-
+# Nmap done at Mon Oct  6 21:35:53 2025 -- 1 IP address (1 host up) scanned in 25.76 seconds
