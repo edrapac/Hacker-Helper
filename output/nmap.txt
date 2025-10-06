@@ -1,0 +1,35 @@
+# Nmap 7.93 scan initiated Mon Oct  6 18:19:18 2025 as: nmap -sS -A -Pn -sV -oN /tmp/nmap.txt example.com
+Nmap scan report for example.com (23.220.75.232)
+Host is up (0.070s latency).
+Other addresses for example.com (not scanned): 23.215.0.136 23.220.75.245 23.215.0.138 23.192.228.84 23.192.228.80 2600:1408:ec00:36::1736:7f31 2600:1406:5e00:6::17ce:bc12 2600:1406:bc00:53::b81e:94c8 2600:1406:5e00:6::17ce:bc1b 2600:1408:ec00:36::1736:7f24 2600:1406:bc00:53::b81e:94ce
+rDNS record for 23.220.75.232: a23-220-75-232.deploy.static.akamaitechnologies.com
+Not shown: 998 filtered tcp ports (no-response)
+PORT    STATE SERVICE  VERSION
+80/tcp  open  http     AkamaiGHost (Akamai's HTTP Acceleration/Mirror service)
+|_http-title: Example Domain
+443/tcp open  ssl/http AkamaiGHost (Akamai's HTTP Acceleration/Mirror service)
+| tls-alpn: 
+|   http/1.1
+|_  http/1.0
+|_http-title: Example Domain
+|_ssl-date: TLS randomness does not represent time
+| tls-nextprotoneg: 
+|   http/1.1
+|_  http/1.0
+| ssl-cert: Subject: commonName=*.example.com/organizationName=Internet Corporation for Assigned Names and Numbers/stateOrProvinceName=California/countryName=US
+| Subject Alternative Name: DNS:*.example.com, DNS:example.com
+| Not valid before: 2025-01-15T00:00:00
+|_Not valid after:  2026-01-15T23:59:59
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+OS fingerprint not ideal because: Missing a closed TCP port so results incomplete
+No OS matches for host
+Network Distance: 2 hops
+
+TRACEROUTE (using port 80/tcp)
+HOP RTT      ADDRESS
+1   0.05 ms  172.19.0.1
+2   77.00 ms a23-220-75-232.deploy.static.akamaitechnologies.com (23.220.75.232)
+
+OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Oct  6 18:19:53 2025 -- 1 IP address (1 host up) scanned in 35.36 seconds
+

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  hacker-helper:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./output:/tmp
+    ports:
+      - "8081:8081"
+
+  flask-app:
+    build:
+      context: .
+      dockerfile: Dockerfile-flask
+    working_dir: /python-docker
+    volumes:
+      - ./app:/python-docker
+      - ./requirements.txt:/python-docker/requirements.txt
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    depends_on:
+      - hacker-helper

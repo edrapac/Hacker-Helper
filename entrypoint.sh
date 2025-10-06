@@ -37,7 +37,7 @@ fi
 HOST_ONLY="${HOST%%:*}"
 
 sudo nmap -sS -A -Pn -sV -oN /tmp/nmap.txt "$HOST_ONLY"
-sudo nmap -p- -oN /tmp/nmap_allports.txt "$HOST_ONLY"
+#sudo nmap -p- -oN /tmp/nmap_allports.txt "$HOST_ONLY"
 
 if [[ "$SSL" == "yes" ]]; then
   URL="https://$HOST"
