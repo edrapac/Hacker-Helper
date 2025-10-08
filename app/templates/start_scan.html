@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <body>
+    <form id="scanForm">
+      <p>Enter Hostname For Scanning</p>
+      <p><input type="text" id="host" name="host" required /></p>
+
+      <label>
+        <input type="checkbox" id="dns" name="dns" />
+        DNS Scan?
+      </label><br>
+
+      <label>
+        <input type="checkbox" id="ssl" name="ssl" />
+        SSL Scan?
+      </label><br>
+
+      <p><button id="submitBtn" type="submit">Submit</button></p>
+      <div id="status"></div>
+      <div id="scan_id_text">
+        
+      </div>
+      <a id="scan_id_number"></a>
+    </form>
+
+    <script>
+      (function () {
+        const form = document.getElementById('scanForm');
+        const hostInput = document.getElementById('host');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusEl = document.getElementById('status');
+        const scan_id_status = document.getElementById('scan_id_text');
+        const scan_id_num = document.getElementById('scan_id_number');
+
+
+        function setStatus(message, type = '') {
+          statusEl.textContent = message;
+          statusEl.style.color = type === 'error' ? 'red' : 'green';
+        }
+        function setScanID(message, type = '') {
+          scan_id_status.textContent = message;
+          scan_id_status.style.color = 'green';
+        }
+        function setScanIDNum(message, type = '') {
+          scan_id_num.textContent = message
+          scan_id_num.href = message;
+          scan_id_num.style.color = 'green';
+        }
+
+        form.addEventListener('submit', async (ev) => {
+          ev.preventDefault(); // prevent default page reload
+          setStatus('');
+          setScanID('');
+          setScanIDNum('');
+
+          const host = hostInput.value.trim();
+          if (!host) {
+            setStatus('Please enter a hostname.', 'error');
+            hostInput.focus();
+            return;
+          }
+
+          // Build JSON payload
+          const payload = {
+            host,
+            dns: form.dns.checked,
+            ssl: form.ssl.checked
+          };
+
+          // Disable button while sending
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+
+          try {
+            const resp = await fetch('http://127.0.0.1:5002/scan', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            const text = await resp.json();
+            if (!resp.ok) {
+              setStatus('Server error: ' + text, 'error');
+            } else {
+              setStatus('Scan request successful with scan ID of: ' + text['scan_id'], 'success');
+              setScanID('Scan can be found at:')
+              setScanIDNum('http://127.0.0.1:5002/scan_output/'+text['scan_id'])
+            }
+          } catch (err) {
+            setStatus('Network error: ' + err.message, 'error');
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

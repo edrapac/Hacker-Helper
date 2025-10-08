@@ -5,7 +5,5 @@ EXPOSE 5001
 RUN curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/raft-large-directories.txt --create-dirs -o /usr/share/wordlists/raft-large-directories.txt
 RUN curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/Web-Content/raft-large-files.txt --create-dirs -o /usr/share/wordlists/raft-large-files.txt
 RUN curl https://raw.githubusercontent.com/danielmiessler/SecLists/refs/heads/master/Discovery/DNS/subdomains-top1million-5000.txt --create-dirs -o /usr/share/wordlists/subdomains-top1million-5000.txt
-COPY entrypoint.sh /app/entrypoint.sh
 WORKDIR /app
-RUN sudo chmod +x entrypoint.sh
 CMD python app.py

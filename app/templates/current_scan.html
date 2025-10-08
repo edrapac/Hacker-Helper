@@ -1,0 +1,16 @@
+<script>
+function pollScanOutput(scan_id) {
+    fetch(`/scan_output/${scan_id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('scan-output').textContent = data.output;
+            if (!data.finished) {
+                setTimeout(() => pollScanOutput(scan_id), 2000); // poll every 2 seconds
+            }
+        });
+}
+
+// Example: Start polling after starting a scan
+// pollScanOutput('your-scan-id-here');
+</script>
+<pre id="scan-output" style="max-height:300px;overflow-y:scroll;"></pre>
