@@ -7,4 +7,5 @@ A list of all scans performed can be found [here](https://github.com/edrapac/Ha
 
 ### Usage
 Navigate to the root directory and run `docker-compose up -d`
-This will start a hedgedoc instance on 127.0.0.1:3000 for reporting and the scanner at 127.0.0.1:5002
+
+This will start a hedgedoc instance on `127.0.0.1:3000` for reporting and the scanner at `127.0.0.1:5002`
